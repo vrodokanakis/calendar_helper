@@ -79,7 +79,8 @@ module CalendarHelper
 
     block                        ||= Proc.new {|d| nil}
 
-    month_names = (!defined?(I18n) || I18n.t("date.month_names").include?("missing")) ? Date::MONTHNAMES.dup : I18n.t("date.month_names")
+
+    month_names = (!defined?(I18n) || I18n.t("date.nominative_month_names").include?("missing")) ? Date::MONTHNAMES.dup : I18n.t("date.nominative_month_names")
 
     defaults = {
       :table_id            => "calendar-#{options[:year]}-#{"%02d" % options[:month]}",
@@ -108,6 +109,7 @@ module CalendarHelper
 
     day_names = (!defined?(I18n) || I18n.t("date.day_names").include?("missing")) ? Date::DAYNAMES : I18n.t("date.day_names")
     abbr_day_names = (!defined?(I18n) || I18n.t("date.abbr_day_names").include?("missing")) ? Date::ABBR_DAYNAMES : I18n.t("date.abbr_day_names")
+
     week_days = (0..6).to_a
     first_weekday.times do
       week_days.push(week_days.shift)
