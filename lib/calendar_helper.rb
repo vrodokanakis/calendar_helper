@@ -74,11 +74,10 @@ module CalendarHelper
   #   Each td has a headers attribute, containing the element id of the appropriate th.
   #
   def calendar(options = {}, &block)
-    raise(ArgumentError, "No year given")  unless options.has_key?(:year)
-    raise(ArgumentError, "No month given") unless options.has_key?(:month)
+    options[:year]  = Time.zone.now.year unless options.has_key?(:year)
+    options[:month] = Time.zone.now.month unless options.has_key?(:month)
 
     block                        ||= Proc.new {|d| nil}
-
 
     month_names = (!defined?(I18n) || I18n.t("date.nominative_month_names").include?("missing")) ? Date::MONTHNAMES.dup : I18n.t("date.nominative_month_names")
 
