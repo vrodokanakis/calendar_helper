@@ -74,8 +74,10 @@ module CalendarHelper
   #   Each td has a headers attribute, containing the element id of the appropriate th.
   #
   def calendar(options = {}, &block)
-    options[:year]  = Time.zone.now.year unless options.has_key?(:year)
-    options[:month] = Time.zone.now.month unless options.has_key?(:month)
+    today = (Time.respond_to?(:zone) && !(zone = Time.zone).nil? ? zone.now.to_date : Date.today)
+
+    options[:year]  = today.year unless options.has_key?(:year)
+    options[:month] = today.month unless options.has_key?(:month)
 
     block                        ||= Proc.new {|d| nil}
 
@@ -153,7 +155,6 @@ module CalendarHelper
       cell_attrs[:headers] = th_id(cur, options[:table_id])
       cell_attrs[:class] ||= options[:day_class]
       cell_attrs[:class] += " weekendDay" if [0, 6].include?(cur.wday)
-      today = (Time.respond_to?(:zone) && !(zone = Time.zone).nil? ? zone.now.to_date : Date.today)
       cell_attrs[:class] += " today" if (cur == today) and options[:show_today]
 
       cal << generate_cell(cell_text, cell_attrs)
