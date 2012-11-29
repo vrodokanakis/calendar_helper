@@ -96,6 +96,8 @@ module CalendarHelper
       :show_today          => true,
       :previous_month_text => nil,
       :next_month_text     => nil,
+      :previous_month_link => nil,
+      :next_month_link     => nil,
       :month_header        => true,
       :calendar_title      => month_names[options[:month]],
       :summary             => "Calendar for #{month_names[options[:month]]} #{options[:year]}"
@@ -124,11 +126,17 @@ module CalendarHelper
       cal << %(<tr>)
       if options[:previous_month_text] or options[:next_month_text]
         cal << %(<th colspan="2">#{options[:previous_month_text]}</th>)
-        colspan=3
+        colspan = 3
       else
-        colspan=7
+        colspan = 7
       end
-      cal << %(<th colspan="#{colspan}" class="#{options[:month_name_class]}">#{options[:calendar_title]}</th>)
+      cal << %(<th colspan="#{colspan}" class="#{options[:month_name_class]}"><div class="container">)
+
+      cal << %(<div class="previous_month">#{options[:previous_month_link]}</div>) if options[:previous_month_link]
+      cal << %(#{options[:calendar_title]})
+      cal << %(<div class="next_month">#{options[:next_month_link]}</div>) if options[:next_month_link]
+      cal << %(</div></th>)
+
       cal << %(<th colspan="2">#{options[:next_month_text]}</th>) if options[:next_month_text]
       cal << %(</tr>)
     end
